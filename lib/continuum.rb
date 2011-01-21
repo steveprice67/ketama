@@ -11,7 +11,7 @@ class Continuum
   end
 
   def get_server(key)
-    i = Digest::MD5.hexdigest(key).hex % @c.size
+    i = (Digest::MD5.hexdigest(key).hex % 360) * @c.size / 360
     @c.size.times do |j|
       s = @c[(i - j) % @c.size]
       return s unless s.nil?
@@ -29,7 +29,7 @@ if $0 == __FILE__
   servers = %w(10.0.0.1 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.5 10.0.0.6)
   continuum = Continuum.new
   servers.each { |s| continuum.add_server(s) }
-  %w(foo bar baz).each do |w|
+  %w(foo bar baz test key widget).each do |w|
     puts continuum.get_server(w)
   end
 end
