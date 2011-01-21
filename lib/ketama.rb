@@ -7,14 +7,14 @@ class Ketama
       0.upto(39) do |i|
         digest = Digest::MD5.hexdigest([s, i] * '-')
         0.upto(3) do |j|
-          @continuum[digest.slice(-4 * j - 4, 4).hex] = s
+          @continuum[digest.slice(4 * j, 4).hex] = s
         end
       end
     end
   end
 
   def get_server(key)
-    i = Digest::MD5.hexdigest(key).hex % 0x10000
+    i = Digest::MD5.hexdigest(key).slice(0, 4).hex
     @continuum.size.times do |j|
       s = @continuum[(i + j) % @continuum.size]
       return s unless s.nil?
