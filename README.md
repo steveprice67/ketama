@@ -1,4 +1,4 @@
-Ketama is a pure ruby implementation of [libketama][] - a consistend hashing
+Ketama is a pure ruby implementation of [libketama][] - a consistent hashing
 algorithm.
 
 Continuum is an exploration of possible improvements upon the libketama
