@@ -13,7 +13,7 @@ class Continuum
   def get_server(key)
     i = (Digest::MD5.hexdigest(key).hex % 360) * @continuum.size / 360
     @continuum.size.times do |j|
-      s = @continuum[(i - j) % @continuum.size]
+      s = @continuum[(i + j) % @continuum.size]
       return s unless s.nil?
     end
     nil
