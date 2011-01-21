@@ -7,7 +7,7 @@ class Ketama
       0.upto(39) do |i|
         digest = Digest::MD5.hexdigest([s, i] * '-')
         0.upto(3) do |j|
-          @continuum[digest.slice(digest.size - (4 * j) - 4, 4).hex] = s
+          @continuum[digest.slice(-4 * j - 4, 4).hex] = s
         end
       end
     end
