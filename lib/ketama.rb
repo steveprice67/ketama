@@ -22,11 +22,3 @@ class Ketama
     nil
   end
 end
-
-if $0 == __FILE__
-  servers = %w(10.0.0.1 10.0.0.2 10.0.0.3 10.0.0.4 10.0.0.5 10.0.0.6)
-  ketama = Ketama.new(servers)
-  %w(foo bar baz test key widget).each do |w|
-    puts [w, ketama.get_server(w)] * ': '
-  end
-end
