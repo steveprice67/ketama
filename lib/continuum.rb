@@ -11,7 +11,11 @@ class Continuum
 
   def get_server(key)
     i = Digest::MD5.hexdigest(key).hex % @c.size
-    @c[i] || @c[(i + 1) % @c.size]
+    @c.size.times do |j|
+      s = @c[(i - j) % @c.size]
+      return s unless s.nil?
+    end
+    nil
   end
 
   private
