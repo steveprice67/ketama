@@ -2,18 +2,18 @@ require 'digest/md5'
 
 class Continuum
   def initialize
-    @c, @cnt = [nil], 0
+    @continuum, @cnt = [nil], 0
   end
 
   def add_server(server)
-    grow if @cnt == @c.size
-    @c[2 * @cnt - @c.size + 1], @cnt = server, @cnt + 1
+    grow if @cnt == @continuum.size
+    @continuum[2 * @cnt - @continuum.size + 1], @cnt = server, @cnt + 1
   end
 
   def get_server(key)
-    i = (Digest::MD5.hexdigest(key).hex % 360) * @c.size / 360
-    @c.size.times do |j|
-      s = @c[(i - j) % @c.size]
+    i = (Digest::MD5.hexdigest(key).hex % 360) * @continuum.size / 360
+    @continuum.size.times do |j|
+      s = @continuum[(i - j) % @continuum.size]
       return s unless s.nil?
     end
     nil
@@ -21,7 +21,9 @@ class Continuum
 
   private
   def grow
-    @c = Array.new(@c.size * 2) { |i| i % 2 == 0 ? @c[i / 2] : nil }
+    @continuum = Array.new(@continuum.size * 2) do |i|
+      i % 2 == 0 ? @continuum[i / 2] : nil
+    end
   end
 end
 
@@ -30,6 +32,6 @@ if $0 == __FILE__
   continuum = Continuum.new
   servers.each { |s| continuum.add_server(s) }
   %w(foo bar baz test key widget).each do |w|
-    puts continuum.get_server(w)
+    puts [w, continuum.get_server(w)] * ': '
   end
 end
