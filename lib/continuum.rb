@@ -1,6 +1,7 @@
+require 'digest/md5'
+
 class Continuum
   def initialize
-    require 'digest/md5'
     @c, @cnt = [nil], 0
   end
 
