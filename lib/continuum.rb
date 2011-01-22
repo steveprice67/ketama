@@ -12,6 +12,11 @@ class Continuum
 
   def get_server(key)
     i = Digest::MD5.hexdigest(key).slice(0, 4).hex * @continuum.size / 0x10000
+
+    # If we don't allow for servers with nil identifiers then the correct
+    # server can be found in O(1) time using the following:
+    # @continuum[i] || @continuum[(i + 1) % @continuum.size]
+
     @continuum.size.times do |j|
       s = @continuum[(i + j) % @continuum.size]
       return s unless s.nil?
